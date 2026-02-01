@@ -1,0 +1,77 @@
+`timescale 1ns/1ps
+
+module dflip(q,d,clk,reset);
+  input d;
+  input reset;
+  input clk;
+  output reg q;
+  
+  always@(posedge clk)
+    begin
+      if(reset)
+        q<=0;
+      else
+        q<=d;
+    end
+endmodule
+
+module XOR(in1,in2,out1);
+  input in1;
+  input in2;
+  output out1;
+  
+  assign out1 = in1^in2;
+endmodule
+
+module AND(i1,i2,o1);
+  input i1;
+  input i2;
+  output o1;
+  
+  assign o1=i1&i2;
+endmodule
+
+module OR(input1,input2,output1);
+  input input1;
+  input input2;
+  output output1;
+  
+  assign output1=input1|input2;
+  
+endmodule
+
+module NOR(a,b,c,d);
+  input a,b,c;
+  output d;
+  
+  assign d = ~(a|b|c);
+endmodule
+
+module top(Z,X,q1,q2,q3,d1,d2,d3,clk,rst);
+  input X;
+  input clk;
+  input rst;
+  
+  output wire d1,d2,d3;
+  output wire  q1,q2,q3;
+  
+  output wire Z;
+  
+  XOR X1(X,q1,d1);
+  AND A1(X,(~q2),d2);
+  OR O1(X,(~q3),d3);
+  dflip D1(q1,d1,clk,rst);
+  dflip D2(q2,d2,clk,rst);
+  dflip D3(q3,d3,clk,rst);
+  NOR N1(q1,q2,q3,Z);
+  
+endmodule
+
+  
+
+
+  
+    
+
+
+
